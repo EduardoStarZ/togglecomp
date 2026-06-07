@@ -2,7 +2,7 @@ use std::process::Command;
 use std::fs;
 
 fn main() {
-    let command : &str = "fastcompmgr";
+    let command : &str = "picom";
     let lock_file : &str = "/home/star/.config/togglecomp/app.lock";
 
     let is_active : bool = match fs::exists(lock_file) {
