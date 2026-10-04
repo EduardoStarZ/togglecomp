@@ -11,10 +11,12 @@ fn main() {
     };
 
     if is_active {
+        i3_enable_borders();
         kill_compositor(command, lock_file);
         return;
     }
-
+    
+    i3_disable_borders();
     start_compositor(command, lock_file);
 }
 
@@ -31,4 +33,22 @@ fn kill_compositor(command: &str, lock_file : &str) {
     let _ = Command::new("killall").arg(command).spawn();
 
     let _ = fs::remove_file(lock_file);
+}
+
+fn i3_disable_borders() {
+    match Command::new("i3-msg")
+        .arg("[all] border pixel 0")
+        .spawn() {
+        Ok(_) => (),
+        Err(_) => panic!("Unable to message i3")
+    };
+}
+
+fn i3_enable_borders() {
+    match Command::new("i3-msg")
+        .arg("[all] border pixel 1")
+        .spawn() {
+        Ok(_) => (),
+        Err(_) => panic!("Unable to message i3")
+    };
 }
